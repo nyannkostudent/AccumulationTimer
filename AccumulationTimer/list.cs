@@ -5,6 +5,8 @@ using System;
 using System.ComponentModel;
 using Xamarin.Forms;
 using System.Runtime.CompilerServices;
+using PCLStorage;
+
 
 namespace AccumulationTimer
 {
@@ -17,6 +19,7 @@ namespace AccumulationTimer
 
 	public class TimerData : ITimerData, INotifyPropertyChanged
 	{
+		// INotifyPropertyChangedインターフェースを実装することで、プロパティの値が変更されたときに通知を行うようになる。
 		private string title = "";
 		private long time = 0;
 		private string remark = "";
@@ -37,14 +40,8 @@ namespace AccumulationTimer
 
 		public string Title
 		{
-			get
-			{
-				return title;
-			}
-			set
-			{
-				SetProperty(ref title, value);
-			}
+			get{ return title; }
+			set{ SetProperty(ref title, value); }
 		}
 		public long Time
 		{

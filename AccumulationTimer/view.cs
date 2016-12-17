@@ -3,6 +3,7 @@
 
 using System;
 using Xamarin.Forms;
+using System.Threading;
 
 namespace AccumulationTimer
 {
@@ -29,10 +30,10 @@ namespace AccumulationTimer
 				BackgroundColor = Color.FromHex(Colors.LabelColor),
 
 			};
-			var yellow = new Label
+			var yellow = new Button
 			{
-				Text = "This is the second Label",
-				BackgroundColor = Color.FromHex(Colors.LabelColor)
+				Text = "Move to SecondSamplePage!",
+				BackgroundColor = Color.FromHex(Colors.ButtonColor)
 			};
 			Content = new StackLayout
 			{
@@ -42,6 +43,102 @@ namespace AccumulationTimer
 				Children = { red, yellow }
 			};
 
+			yellow.Clicked += delegate
+			{
+				moveToSecondSamplePage();
+			};
+
+			this.Title = "RootPage";
 		}
+		async void moveToSecondSamplePage()
+		{
+			await Navigation.PushAsync(new SecondSamplePage());
+		}
+	}
+
+	public class SecondSamplePage : ContentPage
+	{
+		public SecondSamplePage()
+		{
+			Padding = new Thickness(10);
+			var label = new Label
+			{
+				Text = "This is the SecondSamplePage!",
+				BackgroundColor = Color.FromHex(Colors.LabelColor)
+			};
+			var button = new Button
+			{
+				Text = "MakeNewTimer",
+				BackgroundColor = Color.FromHex(Colors.ButtonColor)
+			};
+
+			button.Clicked += async (sender, e) =>
+			{
+				await Navigation.PushAsync(new NewTimerPage());
+			};
+			Content = new StackLayout
+			{
+				Spacing = 10,
+				HorizontalOptions = LayoutOptions.Center,
+				VerticalOptions = LayoutOptions.Center,
+				Children = { label, button }
+			};
+
+			this.Title = "SecondSamplePage";
+		}
+	}
+
+	public class AllListPage : ListView
+	{
+
+	}
+
+	public class NewTimerPage: ContentPage
+	{
+		public NewTimerPage()
+		{
+
+			var titleLabel = new Label
+			{
+				Text = "Title",
+				BackgroundColor = Color.FromHex(Colors.LabelColor),
+				HorizontalOptions = LayoutOptions.Start
+
+			};
+			var titleEntry = new Entry
+			{
+				Keyboard = Keyboard.Default,
+				Placeholder = "Title",
+
+
+			};
+
+			var remarksLabel = new Label
+			{
+				BackgroundColor = Color.FromHex(Colors.LabelColor),
+				Text = "Remarks",
+				HorizontalOptions = LayoutOptions.Start
+			};
+
+
+			// editorが表示されません!! なぜ!!
+			var remarksEditor = new Editor
+			{
+				Keyboard = Keyboard.Default,
+				VerticalOptions = LayoutOptions.FillAndExpand
+			};
+
+			Content = new StackLayout
+			{
+				Spacing = 30,
+
+				Children = { titleLabel , titleEntry,remarksLabel, remarksEditor }
+
+			};
+
+			this.Title = "NewTimerView";
+		}
+
+
 	}
 }
