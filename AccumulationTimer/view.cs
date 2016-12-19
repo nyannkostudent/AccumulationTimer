@@ -21,6 +21,7 @@ namespace AccumulationTimer
 
 	public class RootPage : ContentPage
 	{
+		// 練習
 		public RootPage()
 		{
 			Padding = new Thickness(30);
@@ -58,6 +59,7 @@ namespace AccumulationTimer
 
 	public class SecondSamplePage : ContentPage
 	{
+		// 練習
 		public SecondSamplePage()
 		{
 			Padding = new Thickness(10);
@@ -95,6 +97,7 @@ namespace AccumulationTimer
 
 	public class NewTimerPage: ContentPage
 	{
+		// 新規タイマーのセットアップ
 		public NewTimerPage()
 		{
 
@@ -122,17 +125,40 @@ namespace AccumulationTimer
 
 
 			// editorが表示されません!! なぜ!!
-			var remarksEditor = new Editor
+			var remarksEntry = new Entry
 			{
 				Keyboard = Keyboard.Default,
-				VerticalOptions = LayoutOptions.FillAndExpand
+
+			};
+
+			var saveButton = new Button
+			{
+				BackgroundColor = Color.FromHex(Colors.BackgroundColor),
+				Text = "Save",
+				HorizontalOptions = LayoutOptions.End,
+				VerticalOptions = LayoutOptions.End
+			};
+
+			saveButton.Clicked += async (object sender, EventArgs e) =>
+			{
+				string title = titleEntry.Text;
+				string remarks = remarksEntry.Text;
+				TimerData newData = new TimerData
+				{
+					Title = title,
+					Remark = remarks,
+					Time = 0
+				};
+				// 呼び出し先がvoidだとだめらしい
+				await TimerDataHandler.SaveTimerDataAsync(newData);
+
 			};
 
 			Content = new StackLayout
 			{
-				Spacing = 30,
+				Spacing = 20,
 
-				Children = { titleLabel , titleEntry,remarksLabel, remarksEditor }
+				Children = { titleLabel , titleEntry, remarksLabel, remarksEntry, saveButton}
 
 			};
 
